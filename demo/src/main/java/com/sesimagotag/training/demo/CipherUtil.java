@@ -6,6 +6,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -63,19 +64,28 @@ public class CipherUtil {
 	}
 
 	public byte[] decrypt(byte[] encryptedMessage) {
-		return encryptedMessage;
+		try {
+			final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+			final SecretKey secretKey = getKeyFromPassword(EnumEncryptionType.AES_128, new String(INIT_VECTOR), SALT);
+			cipher.init(Cipher.DECRYPT_MODE, secretKey, initVector);
+			final byte[] decryptedMessage = cipher.doFinal(encryptedMessage);
+			return decryptedMessage;
+		} catch (final Exception e) {
+			throw new RuntimeException("Error while decrypting", e);
+		}
 	}
 
 	public String encryptAsB64(final String message) throws InvalidKeyException, NoSuchPaddingException,
 			NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException,
 			InvalidKeySpecException, InvalidAlgorithmParameterException {
-		return message;
+		return Base64.getEncoder().encodeToString(this.encrypt(message.getBytes("UTF-8")));
 	}
 
 	public String decryptAsB64(final String message) throws InvalidKeyException, NoSuchPaddingException,
 			NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException,
 			InvalidAlgorithmParameterException {
-		return message;
+		byte[] encryptedBytes = Base64.getDecoder().decode(message);
+		return new String(this.decrypt(encryptedBytes), "UTF-8");
 	}
 
 	private static SecretKey getKeyFromPassword(final EnumEncryptionType encryptionType, final String password,
