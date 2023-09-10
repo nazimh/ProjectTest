@@ -39,9 +39,10 @@ public class RestControllerForJavaTechnical {
             lockForItemz.lock();
             /* End can't be changed */
             System.out.println(items.size());
-        } finally {
+        }finally {
             items.remove("lock");
-            lockForItemz.unlock();
+            if(lockForItemz.isLocked())
+             lockForItemz.unlock();
             lockForItems.unlock();
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -65,7 +66,7 @@ public class RestControllerForJavaTechnical {
         i++;
         mapOfInts.put(intId, Integer.valueOf(i));
         /* End can't be changed */
-
+        System.out.print(mapOfInts);
         return new ResponseEntity<>(Integer.valueOf(i), HttpStatus.OK);
     }
 

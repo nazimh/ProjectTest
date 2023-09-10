@@ -14,4 +14,8 @@ public interface ItemsService {
     List<Item> getAllItems();
 
     List<Item> getAllItemsWithReverseName();
+
+    List<Item> itemsSort();
+
+    List<Item> getItemsIterate(int page, int pageSize, boolean sort, boolean reverseName);
 }

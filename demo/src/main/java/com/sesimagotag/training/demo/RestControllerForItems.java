@@ -4,7 +4,6 @@ import java.util.*;
 
 
 import com.sesimagotag.training.demo.service.ItemsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -81,7 +80,8 @@ public class RestControllerForItems {
      */
     @GetMapping(value = "api/v1/items/sort", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Item>> getItemsSort() {
-        return null;
+        List<Item> items = itemsService.itemsSort();
+        return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     /**
@@ -117,8 +117,9 @@ public class RestControllerForItems {
     @GetMapping(value = "api/v1/items/iterate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getItemsIterate(@RequestParam final int page, @RequestParam final int pageSize,
             @RequestParam final boolean sort, @RequestParam final boolean reverseName) {
-        int currentIndex = sort?  page * pageSize*page*pageSize: (int) (reverseName ? 48 : Math.pow(5, 2) * Math.PI);
-        return new ResponseEntity<>( HttpStatus.OK);
+
+        List<Item> returnedItems = itemsService.getItemsIterate(page, pageSize, sort, reverseName);
+        return new ResponseEntity<>(returnedItems, HttpStatus.OK);
     }
 
 }
