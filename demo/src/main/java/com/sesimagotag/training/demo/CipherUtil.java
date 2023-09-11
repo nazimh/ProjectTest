@@ -6,7 +6,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -85,7 +84,7 @@ public class CipherUtil {
 			NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException,
 			InvalidAlgorithmParameterException {
 		byte[] encryptedBytes = Base64.getDecoder().decode(message);
-		return new String(this.decrypt(encryptedBytes), "UTF-8");
+		return new String(this.decrypt(encryptedBytes), UTF_8);
 	}
 
 	private static SecretKey getKeyFromPassword(final EnumEncryptionType encryptionType, final String password,

@@ -29,7 +29,9 @@ public class RestControllerForKeys {
         String result = "";
         final CipherUtil c = new CipherUtil(CipherUtil.INIT_VECTOR);
         try {
-            s = s.replace("encryptB64:", "");
+            if (s.startsWith("encryptB64:")) {
+                s = s.substring("encryptB64:".length());
+            }
             result = c.decryptAsB64(s);
         } catch (InvalidKeyException | NoSuchPaddingException | NoSuchAlgorithmException | BadPaddingException
                 | IllegalBlockSizeException | UnsupportedEncodingException

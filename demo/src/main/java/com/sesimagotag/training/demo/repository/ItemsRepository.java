@@ -11,9 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ItemsRepository extends JpaRepository<Item, String> {
-
     @Query("SELECT e FROM Item e ORDER BY e.price, e.name")
     List<Item> findAllOrderByPropriete1AndPropriete2();
     Page<Item> findAll(Pageable pageable);
-
 }

@@ -3,7 +3,6 @@ package com.sesimagotag.training.demo.service.impl;
 import com.sesimagotag.training.demo.entities.Item;
 import com.sesimagotag.training.demo.repository.ItemsRepository;
 import com.sesimagotag.training.demo.service.ItemsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +57,6 @@ public class ItemsServiceImpl implements ItemsService {
     }
 
     public List<Item> getItemsIterate(int page, int pageSize, boolean sort, boolean reverseName) {
-
         Pageable pageable = sort ? PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "price").and(Sort.by(Sort.Direction.ASC, "name")))
                 : PageRequest.of(page - 1, pageSize);
         Page<Item> pageResult = itemsRepository.findAll(pageable);
@@ -78,7 +75,6 @@ public class ItemsServiceImpl implements ItemsService {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(name);
         stringBuilder.reverse();
-
         return stringBuilder.toString();
     }
 
